@@ -59,7 +59,12 @@ def menu_principal():
         
         if opcion == '1':
             nombre = input("Nombre del estudiante: ")
-            edad = int(input("Edad: "))
+            while True:
+                try:
+                    edad = int(input("Edad: "))
+                    break
+                except ValueError:
+                    print("Ingrese la edad correctamente.")
             califs = []
             num_califs = int(input("Número de calificaciones: "))
             for i in range(num_califs):
