@@ -64,7 +64,12 @@ def menu_principal():
         
         if opcion == '1':
             nombre = input("Nombre del estudiante: ")
-            edad = int(input("Edad: "))
+            while True:
+                try:
+                    edad = int(input("Edad: "))
+                    break
+                except ValueError:
+                    print("Ingrese la edad correctamente.")
             rfc = input("RFC: ")
             curp = input("CURP: ")
             numeroTelefonico = input("Número de teléfono Personal: ")
