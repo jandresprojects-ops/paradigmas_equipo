@@ -41,3 +41,9 @@ Ideal para aplicaciones empresariales, sistemas orientados a dominio donde inter
 
 **Programación Funcional:** 
 para procesamiento masivo de datos (Big Data), sistemas concurrentes/-paralelos, desarrollo de microservicios y módulos financieros o científicos donde la integridad de los datos e inmutabilidad sean críticas.
+
+
+# Integrantes 
+- Yael Grageda
+- Artemio Rangel
+- Josue Andres

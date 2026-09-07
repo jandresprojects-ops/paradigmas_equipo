@@ -6,21 +6,18 @@
 
 from abc import ABC, abstractmethod
 
-# ABSTRACCIÓN: Clase base abstracta que define el contrato general
 class Persona(ABC):
     def __init__(self, nombre: str, edad: int):
-        self._nombre = nombre.strip()  # Atributo protegido con limpieza de espacios
-        self._edad = edad              # Atributo protegido
+        self._nombre = nombre.strip()  
+        self._edad = edad              
 
     @abstractmethod
     def obtener_informacion(self) -> str:
         pass
 
-# HERENCIA: Estudiante extiende las propiedades de Persona
 class Estudiante(Persona):
     def __init__(self, nombre: str, edad: int, calificaciones: list, rfc: str = '', curp: str = '', numero_telefonico: str = ''):
         super().__init__(nombre, edad)
-        # ENCAPSULAMIENTO: Atributos privados controlados
         self.__rfc = rfc.strip().upper()
         self.__curp = curp.strip().upper()
         self.__numero_telefonico = numero_telefonico.strip()
@@ -32,7 +29,6 @@ class Estudiante(Persona):
             return 0.0
         return sum(self.__calificaciones) / len(self.__calificaciones)
 
-    # Getters para acceso seguro a miembros privados
     def get_nombre(self) -> str:
         return self._nombre
 
@@ -48,14 +44,12 @@ class Estudiante(Persona):
     def get_numero_telefonico(self) -> str:
         return self.__numero_telefonico
 
-    # POLIMORFISMO: Implementación específica del método de la clase abstracta
     def obtener_informacion(self) -> str:
         return f"{self._nombre} | Edad: {self._edad} | RFC: {self.__rfc} | CURP: {self.__curp} | Teléfono: {self.__numero_telefonico} | Promedio: {self.__promedio:.2f}"
 
-# CLASE GESTORA: Encapsula la colección de estudiantes y sus operaciones
 class SistemaGestionEstudiantes:
     def __init__(self):
-        self.__estudiantes = []  # Estado interno encapsulado
+        self.__estudiantes = []
 
     def agregar_estudiante(self, estudiante: Estudiante):
         self.__estudiantes.append(estudiante)
@@ -81,7 +75,6 @@ class SistemaGestionEstudiantes:
 def menu_principal():
     sistema = SistemaGestionEstudiantes()
 
-    # INSTANCIACIÓN DE OBJETOS
     sistema.agregar_estudiante(Estudiante("Artemio Rangel", 20, [85, 90, 88, 92], "GARA000000AAA", "GARA000000MDFNNNA0", "8972174187"))
     sistema.agregar_estudiante(Estudiante("Josue Andres", 22, [90, 91, 89, 94], "LOPA000000AAA", "LOPA000000MDFPNNA0", "8952352357"))
     sistema.agregar_estudiante(Estudiante("Yael Grageda", 19, [78, 82, 85, 80], "LOPC000000AAA", "LOPC000000HDFPNRA0", "8972080907"))

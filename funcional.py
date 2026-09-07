@@ -6,8 +6,6 @@
 
 from functools import reduce
 
-# FUNCIONES PURAS: Mismas entradas producen siempre la misma salida sin alterar variables externas
-
 def calcular_promedio(calificaciones: list) -> float:
     if not calificaciones:
         return 0.0
