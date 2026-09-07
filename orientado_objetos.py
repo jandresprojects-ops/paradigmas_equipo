@@ -14,19 +14,20 @@ class Persona(ABC):
 
     @abstractmethod
     def obtener_informacion(self) -> str:
-        """Método abstracto que obliga su implementación en clases hijas."""
         pass
 
 # HERENCIA: Estudiante extiende las propiedades de Persona
 class Estudiante(Persona):
-    def __init__(self, nombre: str, edad: int, calificaciones: list):
+    def __init__(self, nombre: str, edad: int, calificaciones: list, rfc: str = '', curp: str = '', numero_telefonico: str = ''):
         super().__init__(nombre, edad)
         # ENCAPSULAMIENTO: Atributos privados controlados
+        self.__rfc = rfc.strip().upper()
+        self.__curp = curp.strip().upper()
+        self.__numero_telefonico = numero_telefonico.strip()
         self.__calificaciones = calificaciones
         self.__promedio = self.__calcular_promedio()
 
     def __calcular_promedio(self) -> float:
-        """Método privado auxiliar."""
         if not self.__calificaciones:
             return 0.0
         return sum(self.__calificaciones) / len(self.__calificaciones)
@@ -38,9 +39,18 @@ class Estudiante(Persona):
     def get_promedio(self) -> float:
         return self.__promedio
 
+    def get_rfc(self) -> str:
+        return self.__rfc
+
+    def get_curp(self) -> str:
+        return self.__curp
+
+    def get_numero_telefonico(self) -> str:
+        return self.__numero_telefonico
+
     # POLIMORFISMO: Implementación específica del método de la clase abstracta
     def obtener_informacion(self) -> str:
-        return f"{self._nombre} | Edad: {self._edad} | Promedio: {self.__promedio:.2f}"
+        return f"{self._nombre} | Edad: {self._edad} | RFC: {self.__rfc} | CURP: {self.__curp} | Teléfono: {self.__numero_telefonico} | Promedio: {self.__promedio:.2f}"
 
 # CLASE GESTORA: Encapsula la colección de estudiantes y sus operaciones
 class SistemaGestionEstudiantes:
@@ -49,10 +59,9 @@ class SistemaGestionEstudiantes:
 
     def agregar_estudiante(self, estudiante: Estudiante):
         self.__estudiantes.append(estudiante)
-        print(f"✅ [POO] Objeto Estudiante '{estudiante.get_nombre()}' guardado.")
+        print(f" [POO] Objeto Estudiante '{estudiante.get_nombre()}' guardado.")
 
     def buscar_estudiantes(self, nombre: str) -> list:
-        """Retorna una lista con todos los objetos Estudiante que coincidan."""
         busqueda = nombre.strip().lower()
         coincidencias = []
         for est in self.__estudiantes:
@@ -62,10 +71,10 @@ class SistemaGestionEstudiantes:
 
     def mostrar_estudiantes(self):
         if not self.__estudiantes:
-            print("⚠️ No hay estudiantes registrados.")
+            print("No hay estudiantes registrados.")
             return
         
-        print("\n--- LISTA DE ESTUDIANTES (POO) ---")
+        print("\n--- LISTA DE ESTUDIANTES ---")
         for i, est in enumerate(self.__estudiantes, 1):
             print(f"{i}. {est.obtener_informacion()}")
 
@@ -73,10 +82,9 @@ def menu_principal():
     sistema = SistemaGestionEstudiantes()
 
     # INSTANCIACIÓN DE OBJETOS
-    sistema.agregar_estudiante(Estudiante("Ana García", 20, [85, 90, 88, 92]))
-    sistema.agregar_estudiante(Estudiante("Ana López", 22, [90, 91, 89, 94]))
-    sistema.agregar_estudiante(Estudiante("Carlos López", 19, [78, 82, 85, 80]))
-    sistema.agregar_estudiante(Estudiante("María Rodríguez", 21, [95, 98, 93, 97]))
+    sistema.agregar_estudiante(Estudiante("Artemio Rangel", 20, [85, 90, 88, 92], "GARA000000AAA", "GARA000000MDFNNNA0", "8972174187"))
+    sistema.agregar_estudiante(Estudiante("Josue Andres", 22, [90, 91, 89, 94], "LOPA000000AAA", "LOPA000000MDFPNNA0", "8952352357"))
+    sistema.agregar_estudiante(Estudiante("Yael Grageda", 19, [78, 82, 85, 80], "LOPC000000AAA", "LOPC000000HDFPNRA0", "8972080907"))
 
     while True:
         print("\n" + "="*40)
@@ -91,13 +99,21 @@ def menu_principal():
         
         if opcion == '1':
             nombre = input("Nombre del estudiante: ")
-            edad = int(input("Edad: "))
+            while True:
+                try:
+                    edad = int(input("Edad: "))
+                    break
+                except ValueError:
+                    print("Ingrese la edad correctamente.")
+            rfc = input("RFC: ")
+            curp = input("CURP: ")
+            numero_telefonico = input("Número de teléfono personal: ")
             califs = []
             num_califs = int(input("Número de calificaciones: "))
             for i in range(num_califs):
                 califs.append(float(input(f"Calificación {i+1}: ")))
             
-            nuevo_estudiante = Estudiante(nombre, edad, califs)
+            nuevo_estudiante = Estudiante(nombre, edad, califs, rfc, curp, numero_telefonico)
             sistema.agregar_estudiante(nuevo_estudiante)
             
         elif opcion == '2':
